@@ -16,4 +16,12 @@ public class Wife extends AbstractBusinessObject{
     
     @OneToOne
     private Husband husband;
+
+    public Husband getHusband() {
+        return husband;
+    }
+
+    public void setHusband(Husband husband) {
+        this.husband = husband;
+    }
 }

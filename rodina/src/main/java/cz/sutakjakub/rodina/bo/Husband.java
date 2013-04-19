@@ -17,4 +17,12 @@ public class Husband extends AbstractBusinessObject{
     
     @OneToOne(mappedBy="husband", cascade=CascadeType.ALL)
     private Wife wife;
+
+    public Wife getWife() {
+        return wife;
+    }
+
+    public void setWife(Wife wife) {
+        this.wife = wife;
+    }
 }
