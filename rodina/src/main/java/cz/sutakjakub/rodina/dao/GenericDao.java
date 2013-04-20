@@ -11,9 +11,9 @@ import java.util.List;
  *
  * @author jey
  */
- public interface GenericDao {
+public interface GenericDao {
 
-     /**
+    /**
      * Vrati vsechny entity serazene sestupne dle id
      *
      * @return vsechny entity pozadovaneho typu (dle implementace potomka tohoto
@@ -21,16 +21,12 @@ import java.util.List;
      */
     public <ENTITY> List<ENTITY> getAll(Class<ENTITY> clazz);
 
-    
-
     /**
      * Odstrani entitu dle jejiho id
      *
      * @param id entity k odstraneni
      */
     public <ENTITY extends AbstractBusinessObject> void removeById(long id, Class<ENTITY> clazz);
-
-
 
     /**
      * Ulozi nebo zaktualizuje danou entitu (at jiz je attached nebo detached),
@@ -77,9 +73,9 @@ import java.util.List;
     public <ENTITY> List<ENTITY> getAllOrderedAsc(String property, Class<ENTITY> clazz);
 
     public <ENTITY> List<ENTITY> getAllOrderedAsc(String orderedProperty, String property, Object value, Class<ENTITY> clazz);
-    
+
     public <ENTITY> List<ENTITY> getAllOrderedDesc(String orderedProperty, String property, Object value, Class<ENTITY> clazz);
-    
+
     /**
      * Get all entities by property
      *
@@ -97,4 +93,5 @@ import java.util.List;
      * @return
      */
     public <ENTITY> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> clazz);
-}
+
+   

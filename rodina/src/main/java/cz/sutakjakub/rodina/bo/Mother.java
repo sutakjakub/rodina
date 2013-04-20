@@ -6,7 +6,7 @@ package cz.sutakjakub.rodina.bo;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -17,21 +17,21 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints=
         @UniqueConstraint(columnNames={"name", "surname", "birth"}))
-public class Child extends AbstractBusinessObject{
+public class Mother extends AbstractBusinessObject{
     
     /**
-     * vazba *...1
-     * Každé dítě má právě jednu matku
+     * vazba 0-1...0-1
+     * Máma může mít jednoho nebo žádného manžela 
      */
-    @ManyToOne
-    @JoinColumn(name="MOTHER_ID")
-    private Mother mother;
-    
-    /**
-     * vazba *...0-1
-     * Každé dítě má jednoho nebo žádného tátu
-     */
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="FATHER_ID")
     private Father father;
+       
+    public Father getFather() {
+        return father;
+    }
+
+    public void setFather(Father father) {
+        this.father = father;
+    }
 }
