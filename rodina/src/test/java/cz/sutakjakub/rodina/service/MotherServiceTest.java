@@ -4,6 +4,9 @@
  */
 package cz.sutakjakub.rodina.service;
 
+import cz.sutakjakub.rodina.bo.Father;
+import cz.sutakjakub.rodina.bo.Mother;
+import cz.sutakjakub.rodina.dto.FatherDto;
 import cz.sutakjakub.rodina.dto.MotherDto;
 import java.util.List;
 import org.junit.After;
@@ -22,6 +25,9 @@ public class MotherServiceTest extends AbstractServiceTest{
     
     @Autowired
     private MotherService ms;
+    
+    @Autowired
+    private FatherService fs;
     
     public MotherServiceTest() {
         super();
@@ -89,17 +95,31 @@ public class MotherServiceTest extends AbstractServiceTest{
     /**
      * Test of getHusband method, of class MotherService.
      */
-//    @Test
-//    public void testGetHusband() {
-//        System.out.println("getHusband");
-//        Long id = null;
-//        MotherService instance = new MotherServiceImpl();
-//        FatherDto expResult = null;
-//        FatherDto result = instance.getHusband(id);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Test
+    public void testGetHusband() {
+        System.out.println("getHusband");
+        Long fatherId = fs.addFather("stanislav", "sutak", new Integer(42));
+        Long motherId = ms.addMother("renata", "sutakova", new Integer(40));
+        
+        ms.addHusband(motherId, fatherId);
+        FatherDto fDto = ms.getHusband(motherId);
+        
+        assertEquals(fatherId, fDto.getId());
+    }
+    
+    /**
+     * Test of addHusband method, of class MotherService.
+     */
+    @Test
+    public void testAddHusband() {
+        System.out.println("addHusband");
+        Long fatherId = fs.addFather("stanislav", "sutak", new Integer(42));
+        Long motherId = ms.addMother("renata", "sutakova", new Integer(40));
+        
+        ms.addHusband(motherId, fatherId);
+        MotherDto mDto = ms.getMotherById(motherId);
+        assertEquals(fatherId, mDto.getFather().getId());
+    }
 
     /**
      * Test of addMother method, of class MotherService.

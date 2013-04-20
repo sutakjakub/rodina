@@ -20,6 +20,14 @@ public class FatherDto extends AbstractDto {
     public FatherDto() {
     }
 
+    public FatherDto(Long id, String name, String surname, Integer birth, Mother mother) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.birth = birth;
+        this.mother = mother;
+    }   
+
     public Mother getMother() {
         return mother;
     }

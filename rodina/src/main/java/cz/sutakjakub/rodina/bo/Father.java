@@ -25,6 +25,7 @@ public class Father extends AbstractBusinessObject {
      */
     @OneToOne(mappedBy = "father")
     private Mother mother;
+    
     /**
      * vazba *...0-1 Každý táta nemá žádné dítě nebo neomezený počet dětí
      */

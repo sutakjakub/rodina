@@ -10,6 +10,7 @@ import cz.sutakjakub.rodina.dto.FatherDto;
 import cz.sutakjakub.rodina.dto.MotherDto;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +20,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class MotherServiceImpl extends AbstractDataAccessService implements MotherService {
 
+    @Autowired
+    private FatherService fs;
+            
     @Override
     public List<MotherDto> getAllMother() {
         List<Mother> mothers = genericDao.getAll(Mother.class);
@@ -54,11 +58,24 @@ public class MotherServiceImpl extends AbstractDataAccessService implements Moth
 
     @Override
     public FatherDto getHusband(Long id) {
-//        Mother mother = genericDao.getById(id, Mother.class);
-//        if(mother != null){
-//            return createMotherDto(mother.getFather());
-//        }
-        return null;
+        Mother mother = genericDao.getById(id, Mother.class);
+        FatherDto father = null;
+        if(mother != null){
+            father = fs.createFatherDto(mother.getFather());
+        }
+        return father;
+    }
+
+    @Override
+    public void addHusband(Long wifeId, Long husbandId) {
+        Father father = genericDao.getById(husbandId, Father.class);
+        Mother mother = genericDao.getById(wifeId, Mother.class);
+        if (father != null && mother != null) {
+            try {
+                mother.setFather(father);
+            } catch (Exception exp) {
+            }
+        }
     }
 
     @Override

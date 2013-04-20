@@ -20,8 +20,8 @@ import javax.persistence.UniqueConstraint;
 public class Child extends AbstractBusinessObject{
     
     /**
-     * vazba *...1
-     * Každé dítě má právě jednu matku
+     * vazba *...0-1
+     * Každé dítě má právě jednu mámu
      */
     @ManyToOne
     @JoinColumn(name="MOTHER_ID")
