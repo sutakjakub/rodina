@@ -93,5 +93,4 @@ public interface GenericDao {
      * @return
      */
     public <ENTITY> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> clazz);
-
-   
+}
