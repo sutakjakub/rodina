@@ -15,9 +15,9 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public class AbstractBusinessObject {
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     protected Long id;
 
     public Long getId() {
@@ -26,8 +26,8 @@ public class AbstractBusinessObject {
 
     public void setId(Long id) {
         this.id = id;
-    }    
-    
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -36,7 +36,7 @@ public class AbstractBusinessObject {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Person other = (Person) obj;
+        final AbstractBusinessObject other = (AbstractBusinessObject) obj;
         if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
