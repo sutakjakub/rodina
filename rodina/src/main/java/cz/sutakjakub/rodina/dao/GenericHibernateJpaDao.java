@@ -4,7 +4,7 @@
  */
 package cz.sutakjakub.rodina.dao;
 
-import cz.sutakjakub.rodina.bo.AbstractBusinessObject;
+import cz.sutakjakub.rodina.bo.Person;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -119,7 +119,7 @@ public class GenericHibernateJpaDao implements GenericDao{
      * @param id id objektu je smazani
      */
     @Override
-    public <ENTITY extends AbstractBusinessObject> void removeById(long id, Class<ENTITY> clazz) {
+    public <ENTITY extends Person> void removeById(long id, Class<ENTITY> clazz) {
         ENTITY e = getEntityManager().find(clazz, id);
         if (e != null) {
             getEntityManager().remove(e);
@@ -147,7 +147,7 @@ public class GenericHibernateJpaDao implements GenericDao{
     }
 
     @Override
-    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) {
+    public <ENTITY extends Person> ENTITY saveOrUpdate(ENTITY o) {
         if (o.getId() == null) {
             getEntityManager().persist(o);
         } else {

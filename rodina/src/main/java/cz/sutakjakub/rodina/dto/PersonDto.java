@@ -4,16 +4,30 @@
  */
 package cz.sutakjakub.rodina.dto;
 
+import cz.sutakjakub.rodina.bo.Person;
+import cz.sutakjakub.rodina.bo.PersonType;
+import java.util.List;
+
 /**
  *
  * @author jey
  */
-public class AbstractDto {
+public class PersonDto {
 
-    protected Long id;
-    protected String name;
-    protected String surname;
-    protected Integer birth;
+    private Long id;
+    private String name;
+    private String surname;
+    private Integer birth;
+    private PersonType personType;
+    private List<Person> persons;
+    private List<Person> relative;
+
+    public PersonDto(Long id, String name, String surname, Integer birth) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.birth = birth;
+    }
 
     public Long getId() {
         return id;
@@ -47,6 +61,31 @@ public class AbstractDto {
         this.birth = birth;
     }
 
+    public PersonType getPersonType() {
+        return personType;
+    }
+
+    public void setPersonType(PersonType personType) {
+        this.personType = personType;
+    }
+
+    public List<Person> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
+    }
+
+    public List<Person> getRelative() {
+        return relative;
+    }
+
+    public void setRelative(List<Person> relative) {
+        this.relative = relative;
+    }
+
+    
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -55,7 +94,7 @@ public class AbstractDto {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AbstractDto other = (AbstractDto) obj;
+        final PersonDto other = (PersonDto) obj;
         if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
