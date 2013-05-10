@@ -4,11 +4,13 @@
  */
 package cz.sutakjakub.rodina.bo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author jey
  */
-public enum PersonType {
+public enum PersonType implements Serializable{
     PARENT,
     CHILD,
     WIFE,

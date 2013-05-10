@@ -2,32 +2,24 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.sutakjakub.rodina.bo;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+package cz.sutakjakub.rodina.dto;
 
 /**
  *
  * @author jey
  */
-@MappedSuperclass
-public class AbstractBusinessObject {
+public class AbstractDto {
 
     protected Long id;
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }     
-    
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -36,7 +28,7 @@ public class AbstractBusinessObject {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AbstractBusinessObject other = (AbstractBusinessObject) obj;
+        final AbstractDto other = (AbstractDto) obj;
         if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
@@ -45,8 +37,8 @@ public class AbstractBusinessObject {
 
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 37 * hash + (this.id != null ? this.id.hashCode() : 0);
+        int hash = 7;
+        hash = 89 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
 }

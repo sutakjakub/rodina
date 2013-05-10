@@ -49,18 +49,14 @@ public interface PersonService {
     public Long addPerson(String name, String surname, Integer birth);
     
     /**
-     * Edituje objekt Person a uloží jej do databáze
-     * 
+     * Edituje objekt a uloží jej do databáze
      * @param name
      * @param surname
      * @param birth
-     * @param personType
-     * @param persons
-     * @param relative
      * @return 
      */
     @Transactional(readOnly = true)
-    public Long editPerson(String name, String surname, Integer birth, PersonType personType, List<Person> persons, List<Person> relative);
+    public Long editPerson(Long id, String name, String surname, Integer birth);
     
     /**
      * Smaže objekt Person podle jeho id
@@ -69,16 +65,6 @@ public interface PersonService {
      */
     @Transactional(readOnly = true)
     public void deletePerson(Long id);
-    
-    /**
-     * Přidá vztah mezi dvě osoby
-     * 
-     * @param personId
-     * @param relativeId
-     * @param type 
-     */
-    @Transactional(readOnly = true)
-    public void addRelation(Long personId, Long relativeId, PersonType type);
     
     /**
      * Spočítá průměrný věk rodiny, tzv udělá se věkový průměr z každého Persona, který

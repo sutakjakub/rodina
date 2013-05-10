@@ -4,7 +4,8 @@
  */
 package cz.sutakjakub.rodina.dao;
 
-import cz.sutakjakub.rodina.bo.Person;
+import cz.sutakjakub.rodina.bo.AbstractBusinessObject;
+import cz.sutakjakub.rodina.bo.PersonToPerson;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,8 +19,8 @@ import org.springframework.stereotype.Component;
  * @author jey
  */
 @Component("genericDao")
-public class GenericHibernateJpaDao implements GenericDao{
-    
+public class GenericHibernateJpaDao implements GenericDao {
+
     @Autowired
     protected EntityManagerFactory entityManagerfactory;
 
@@ -69,10 +70,10 @@ public class GenericHibernateJpaDao implements GenericDao{
         String queryString = "SELECT e FROM " + clazz.getSimpleName() + " e ORDER BY e." + property + " ASC";
         return getEntityManager().createQuery(queryString).getResultList();
     }
-    
+
     /**
-     * Vrati objekty dane tridy serazene sestupne dle dane property, jejichz property se rovna objektu predanemu v
-     * parametru, serazene dle id sestupne
+     * Vrati objekty dane tridy serazene sestupne dle dane property, jejichz
+     * property se rovna objektu predanemu v parametru, serazene dle id sestupne
      *
      * @param property
      * @return
@@ -85,8 +86,8 @@ public class GenericHibernateJpaDao implements GenericDao{
     }
 
     /**
-     * Vrati objekty dane tridy serazene vzestupne dle dane property, jejichz property se rovna objektu predanemu v
-     * parametru, serazene dle id sestupne
+     * Vrati objekty dane tridy serazene vzestupne dle dane property, jejichz
+     * property se rovna objektu predanemu v parametru, serazene dle id sestupne
      *
      * @param property
      * @return
@@ -112,20 +113,19 @@ public class GenericHibernateJpaDao implements GenericDao{
         String queryString = "SELECT e FROM " + clazz.getSimpleName() + " e WHERE e." + property + " = :value";
         return getEntityManager().createQuery(queryString).setParameter("value", value).getResultList();
     }
-   
+
     /**
      * Smaze objekt dle daneho ID
      *
      * @param id id objektu je smazani
      */
     @Override
-    public <ENTITY extends Person> void removeById(long id, Class<ENTITY> clazz) {
+    public <ENTITY extends AbstractBusinessObject> void removeById(long id, Class<ENTITY> clazz) {
         ENTITY e = getEntityManager().find(clazz, id);
         if (e != null) {
             getEntityManager().remove(e);
         }
     }
-
 
     /**
      * Vrati objekt (pomoci get) dane tridy dle ID
@@ -147,7 +147,7 @@ public class GenericHibernateJpaDao implements GenericDao{
     }
 
     @Override
-    public <ENTITY extends Person> ENTITY saveOrUpdate(ENTITY o) {
+    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o) {
         if (o.getId() == null) {
             getEntityManager().persist(o);
         } else {
@@ -157,8 +157,17 @@ public class GenericHibernateJpaDao implements GenericDao{
     }
 
     @Override
+    public void saveOrUpdateP2p(PersonToPerson p2p) {
+        if (p2p.getPk() == null) {
+            getEntityManager().persist(p2p);
+        } else {
+            getEntityManager().merge(p2p);
+        }
+    }
+
+    @Override
     public <ENTITY> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> clazz) {
-        ENTITY e; 
+        ENTITY e;
         if (value == null) {
             e = clazz.cast(getEntityManager().createQuery("SELECT e FROM " + clazz.getSimpleName() + " e WHERE e." + property + " IS NULL").getSingleResult());
         } else {

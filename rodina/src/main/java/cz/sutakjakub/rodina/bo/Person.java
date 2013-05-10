@@ -11,9 +11,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -23,26 +20,20 @@ import javax.persistence.UniqueConstraint;
  * @author Jakub Šuták
  */
 @Entity
-@Table(name = "person",
+@Table(name = "person", catalog = "rodina",
         uniqueConstraints =
-        @UniqueConstraint(columnNames = {"name", "surname", "birth"}))
+        @UniqueConstraint(columnNames = {"NAME", "SURNAME", "BIRTH"}))
 public class Person extends AbstractBusinessObject implements Serializable {
 
     private String name;
     private String surname;
     private Integer birth;
-    private Set<Relations> relations = new HashSet<Relations>(0);
+    private Set<PersonToPerson> personToPerson = new HashSet<PersonToPerson>(0);
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "person_id", cascade = CascadeType.ALL)
-    public Set<Relations> getRelations() {
-        return relations;
+    public Person() {
     }
 
-    public void setRelations(Set<Relations> relations) {
-        this.relations = relations;
-    }
-
-    @Column(nullable = false, length = 20)
+    @Column(name = "NAME", nullable = false, length = 20)
     public String getName() {
         return name;
     }
@@ -51,7 +42,7 @@ public class Person extends AbstractBusinessObject implements Serializable {
         this.name = name;
     }
 
-    @Column(nullable = false, length = 20)
+    @Column(name = "SURNAME", nullable = false, length = 20)
     public String getSurname() {
         return surname;
     }
@@ -60,12 +51,21 @@ public class Person extends AbstractBusinessObject implements Serializable {
         this.surname = surname;
     }
 
-    @Column(nullable = false)
+    @Column(name = "BIRTH", nullable = false)
     public Integer getBirth() {
         return birth;
     }
 
     public void setBirth(Integer birth) {
         this.birth = birth;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.person1", cascade = CascadeType.ALL)
+    public Set<PersonToPerson> getPersonToPerson() {
+        return personToPerson;
+    }
+
+    public void setPersonToPerson(Set<PersonToPerson> personToPerson) {
+        this.personToPerson = personToPerson;
     }
 }

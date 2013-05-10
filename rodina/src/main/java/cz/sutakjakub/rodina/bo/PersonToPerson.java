@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -22,19 +20,18 @@ import javax.persistence.Transient;
  * @author jey
  */
 @Entity
-@Table(name = "relations")
+@Table(name = "personToPerson", catalog = "rodina")
 @AssociationOverrides({
-    @AssociationOverride(name = "pk.person", joinColumns =
-            @JoinColumn(name = "PERSON1_ID")),
-    @AssociationOverride(name = "pk.person", joinColumns =
-            @JoinColumn(name = "PERSON2_ID"))
-})
-public class Relations implements Serializable {
+    @AssociationOverride(name = "pk.person1", joinColumns =
+            @JoinColumn(name = "PERSON_ID1")),
+    @AssociationOverride(name = "pk.person2", joinColumns =
+            @JoinColumn(name = "PERSON_ID2"))})
+public class PersonToPerson implements Serializable {
 
     private PersonType personType;
-    private RelationsId pk = new RelationsId();
+    private PersonToPersonId pk = new PersonToPersonId();
 
-    public Relations() {
+    public PersonToPerson() {
     }
 
     @Enumerated(EnumType.STRING)
@@ -47,11 +44,11 @@ public class Relations implements Serializable {
     }
 
     @EmbeddedId
-    public RelationsId getPk() {
+    public PersonToPersonId getPk() {
         return pk;
     }
 
-    public void setPk(RelationsId pk) {
+    public void setPk(PersonToPersonId pk) {
         this.pk = pk;
     }
 
@@ -71,5 +68,29 @@ public class Relations implements Serializable {
 
     public void setPerson2(Person person) {
         getPk().setPerson2(person);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        PersonToPerson that = (PersonToPerson) o;
+
+        if (getPk() != null ? !getPk().equals(that.getPk())
+                : that.getPk() != null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return (getPk() != null ? getPk().hashCode() : 0);
     }
 }

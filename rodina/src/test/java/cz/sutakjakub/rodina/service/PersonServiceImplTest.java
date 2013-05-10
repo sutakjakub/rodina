@@ -4,12 +4,16 @@
  */
 package cz.sutakjakub.rodina.service;
 
+import cz.sutakjakub.rodina.bo.Person;
+import cz.sutakjakub.rodina.bo.PersonToPerson;
+import cz.sutakjakub.rodina.bo.PersonType;
+import cz.sutakjakub.rodina.util.HibernateUtil;
+import org.hibernate.Session;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -20,6 +24,9 @@ public class PersonServiceImplTest extends AbstractServiceTest{
     
     @Autowired
     private PersonService ps;
+    
+    @Autowired
+    private PersonToPersonService p2ps;
     
     public PersonServiceImplTest() {
         super();
@@ -46,11 +53,8 @@ public class PersonServiceImplTest extends AbstractServiceTest{
      */
     @Test
     public void testGetAllPersons() {
-        ps.addPerson("kuba", "sutak", new Integer(21));
-        ps.addPerson("pavel", "komarek", new Integer(20));
-        ps.addPerson("tomas", "penkava", new Integer(10));
-               
-        assertEquals(3, ps.getAllPersons().size());
+         
+        
     }
 
     /**

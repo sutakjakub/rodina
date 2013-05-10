@@ -5,10 +5,11 @@
 package cz.sutakjakub.rodina.service;
 
 import cz.sutakjakub.rodina.bo.Person;
-import cz.sutakjakub.rodina.bo.PersonType;
+import cz.sutakjakub.rodina.bo.PersonToPerson;
 import cz.sutakjakub.rodina.dto.PersonDto;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,6 +18,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PersonServiceImpl extends AbstractDataAccessService implements PersonService {
+
+    @Autowired
+    private PersonToPersonService p2ps;
 
     @Override
     public List<PersonDto> getAllPersons() {
@@ -55,23 +59,57 @@ public class PersonServiceImpl extends AbstractDataAccessService implements Pers
     }
 
     @Override
-    public Long editPerson(String name, String surname, Integer birth, PersonType personType, List<Person> persons, List<Person> relative) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Long editPerson(Long id, String name, String surname, Integer birth) {
+        Long idPerson = null;
+        Person per = genericDao.getById(id, Person.class);
+        if (name != null && surname != null && birth != null) {
+            per.setName(name);
+            per.setSurname(surname);
+            per.setBirth(birth);
+            try {
+                idPerson = genericDao.saveOrUpdate(per).getId();
+            } catch (Exception exp) {
+            }
+        }
+        return idPerson;
     }
 
     @Override
     public void deletePerson(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addRelation(Long personId, Long relativeId, PersonType type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (id != null) {
+            try {
+                genericDao.removeById(id, Person.class);
+            } catch (Exception exp) {
+            }
+        }
     }
 
     @Override
     public double getAverageAgeFamily(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Double average = null;
+        Person per = null;
+        List<PersonToPerson> p2p = null;
+        if (id != null) {
+            try {
+                per = genericDao.getById(id, Person.class);
+            } catch (Exception exp) {
+            }
+            if (per != null) {
+                p2p = p2ps.getRelations(id);
+                if (p2p != null) {
+                    average = (double) per.getBirth();
+                    for (PersonToPerson personToPerson : p2p) {
+                        if (personToPerson.getPerson1().getId() == id) {
+                            average += personToPerson.getPerson2().getBirth();
+                        }
+                        if (personToPerson.getPerson2().getId() == id) {
+                            average += personToPerson.getPerson1().getBirth();
+                        }
+                    }
+                }
+            }
+        }
+        return average;
     }
 
     @Override

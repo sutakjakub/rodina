@@ -4,7 +4,8 @@
  */
 package cz.sutakjakub.rodina.dao;
 
-import cz.sutakjakub.rodina.bo.Person;
+import cz.sutakjakub.rodina.bo.AbstractBusinessObject;
+import cz.sutakjakub.rodina.bo.PersonToPerson;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public interface GenericDao {
      *
      * @param id entity k odstraneni
      */
-    public <ENTITY extends Person> void removeById(long id, Class<ENTITY> clazz);
+    public <ENTITY extends AbstractBusinessObject> void removeById(long id, Class<ENTITY> clazz);
 
     /**
      * Ulozi nebo zaktualizuje danou entitu (at jiz je attached nebo detached),
@@ -35,7 +36,7 @@ public interface GenericDao {
      * @param o
      * @return attached ulozeny (zaktualizovany objekt)
      */
-    public <ENTITY extends Person> ENTITY saveOrUpdate(ENTITY o);
+    public <ENTITY extends AbstractBusinessObject> ENTITY saveOrUpdate(ENTITY o);
 
     /**
      * Vrati objekt (pomoci get) dane tridy dle ID
@@ -93,4 +94,10 @@ public interface GenericDao {
      * @return
      */
     public <ENTITY> ENTITY getByPropertyUnique(String property, Object value, Class<ENTITY> clazz);
+    
+    /**
+     * Uloží PersonToPerson
+     * @param p2p 
+     */
+    public void saveOrUpdateP2p(PersonToPerson p2p);
 }
